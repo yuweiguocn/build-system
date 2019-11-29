@@ -1,0 +1,9 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':indirectlib')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

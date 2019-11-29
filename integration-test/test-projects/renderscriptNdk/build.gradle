@@ -1,0 +1,22 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 17
+        renderscriptTargetApi = 17
+        renderscriptSupportModeEnabled true
+        renderscriptSupportModeBlasEnabled false
+        renderscriptNdkModeEnabled true
+        ndk {
+            moduleName "renderscript"
+            abiFilter "armeabi-v7a"
+            stl "c++_shared"
+        }
+    }
+}

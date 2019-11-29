@@ -1,0 +1,23 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+task manifestMerger(type: com.android.build.gradle.tasks.InvokeManifestMerger) {
+    mainManifestFile = file('src/main/AndroidManifest.xml')
+    secondaryManifestFiles = [ file('src/main/Lib1_AndroidManifest.xml'), file('src/main/Lib2_AndroidManifest.xml') ]
+    outputFile = file("${project.buildDir}/Result_AndroidManifest.xml")
+}
+
+def assembleDebug = task "assembleDebug"
+assembleDebug.dependsOn manifestMerger
+assembleDebug.doLast {
+    String actual = file("${project.buildDir}/Result_AndroidManifest.xml").text
+    if (actual.indexOf("foo.permission.SEND_SMS") == -1 || actual.indexOf("foo.permission-group.COST_MONEY") == -1) {
+        throw new org.gradle.tooling.BuildException("Resulting file is different from expected", null)
+    }
+}
+
+task "clean" {
+    doLast {
+        project.buildDir.delete()
+    }
+}

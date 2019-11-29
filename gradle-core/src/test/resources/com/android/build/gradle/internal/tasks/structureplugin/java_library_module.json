@@ -1,0 +1,20 @@
+{
+  "moduleName": "kotlinlib_javalib",
+  "moduleType": "pure",
+  "java": {
+    "packages": 10,
+    "classesPerPackage": 10,
+    "methodsPerClass": 10,
+    "fieldsPerClass": 5
+  },
+  "dependencies": [
+    {
+      "library": "my.org:lib1:1.0",
+      "method": "implementation"
+    },
+    {
+      "library": "my.org:lib2:3.1",
+      "method": "api"
+    }
+  ]
+}

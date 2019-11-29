@@ -1,0 +1,40 @@
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.example.manifest_merger_example"
+        manifestPlaceholders = [ localApplicationId:"com.example.manifest_merger_example"]
+        minSdkVersion 15
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    flavorDimensions 'foo'
+    productFlavors {
+        flavor {
+            applicationId "com.example.manifest_merger_example.flavor"
+            manifestPlaceholders = [ localApplicationId:"com.example.manifest_merger_example.flavor"]
+            minSdkVersion 15
+            //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+            targetSdkVersion 21
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    api project(':examplelibrary')
+    api fileTree(dir: 'libs', include: ['*.jar'])
+}

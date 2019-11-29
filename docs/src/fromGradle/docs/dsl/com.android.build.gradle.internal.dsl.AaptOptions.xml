@@ -1,0 +1,27 @@
+<section>
+    <section>
+        <title>Properties</title>
+        <table>
+            <thead>
+                <tr><td>Name</td></tr>
+            </thead>
+            <tr><td>additionalParameters</td></tr>
+            <tr><td>cruncherEnabled</td></tr>
+            <tr><td>failOnMissingConfigEntry</td></tr>
+            <tr><td>ignoreAssets</td></tr>
+            <tr><td>ignoreAssetsPattern</td></tr>
+            <tr><td>noCompress</td></tr>
+            <tr><td>cruncherProcesses</td></tr>
+        </table>
+    </section>
+    <section>
+        <title>Methods</title>
+        <table>
+            <thead>
+                <tr><td>Name</td></tr>
+            </thead>
+            <tr><td>noCompress</td></tr>
+            <tr><td>additionalParameters</td></tr>
+        </table>
+    </section>
+</section>

@@ -1,0 +1,15 @@
+apply plugin: 'com.android.dynamic-feature'
+
+apply from: "../../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+
+    defaultConfig {
+        minSdkVersion 18
+    }
+}
+
+dependencies {
+    implementation project(':app')
+}

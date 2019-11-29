@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion rootProject.latestCompileSdk
+  buildToolsVersion = rootProject.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion rootProject.supportLibMinSdk
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    buildConfigField "String", "FOO", "\"foo\""
+
+    multiDexEnabled = true
+  }
+
+  flavorDimensions 'version'
+  productFlavors {
+    ics {
+      minSdkVersion rootProject.supportLibMinSdk
+    }
+    lollipop {
+      minSdkVersion 21
+    }
+  }
+
+  buildTypes {
+    debug {
+      buildConfigField "String", "FOO", "\"bar\""
+      resValue "string", "foo", "foo2"
+    }
+  }
+}
+
+dependencies {
+  api project(':lib')
+
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+  androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}

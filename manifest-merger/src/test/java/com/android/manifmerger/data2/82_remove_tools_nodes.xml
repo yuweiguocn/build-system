@@ -1,0 +1,61 @@
+#
+# Tests that namespaces in nodes are removed.
+#
+
+@main
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="test.pkg" >
+
+    <application>
+        <activity android:name=".FooActivity">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http"
+                    android:host="example.com"
+                    android:pathPrefix="/gizmos" />
+                <data android:path="/literal/path" />
+                <tools:validation testUrl="http://example.com/gizmos/foo/bar"/>
+                <tools:validation testUrl="http://example.com/notmatch/foo/bar"/>
+                <tools:validation testUrl="http://notmatch.com/gizmos/foo/bar"/>
+                <tools:validation testUrl="https://example.com/gizmos/foo/bar"/>
+                <tools:validation testUrl="http://example.com/literal/path"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+@result
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="test.pkg" >
+
+    <application>
+        <activity android:name="test.pkg.FooActivity" >
+            <intent-filter android:autoVerify="true" >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="example.com"
+                    android:pathPrefix="/gizmos"
+                    android:scheme="http" />
+                <data android:path="/literal/path" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+@errors
+
+

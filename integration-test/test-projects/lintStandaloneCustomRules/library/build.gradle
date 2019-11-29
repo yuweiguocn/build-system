@@ -1,0 +1,14 @@
+apply plugin: 'java-library'
+apply plugin: 'com.android.lint'
+
+lintOptions {
+    textReport true
+    textOutput file("lint-results.txt")
+    check 'UnitTestLintCheck2', 'UseValueOf'
+    absolutePaths false
+    abortOnError false
+}
+
+dependencies {
+	lintChecks project(':lint')
+}

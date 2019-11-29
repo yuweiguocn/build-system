@@ -1,0 +1,32 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+repositories {
+    maven { url '../testrepo' }
+}
+apply from: "../commonLocalRepo.gradle"
+
+dependencies {
+    api 'com.example.android.multiproject:util:1.0'
+    releaseApi 'com.google.guava:guava:19.0'
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+}
+
+group = 'com.example.android.multiproject'
+archivesBaseName = 'baseLib'
+version = '1.0-SNAPSHOT'  // using SNAPSHOT as it may be handled differently by the plugin.
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("../testrepo"))
+        }
+    }
+}

@@ -1,0 +1,28 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    api 'com.example.android.multiproject:baseLib:1.0'
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+}
+
+group = 'com.example.android.multiproject'
+archivesBaseName = 'lib'
+version = '2.0'
+
+uploadArchives {
+  repositories {
+    mavenInstaller()
+  }
+}

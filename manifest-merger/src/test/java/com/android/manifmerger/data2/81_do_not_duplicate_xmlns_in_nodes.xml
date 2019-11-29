@@ -1,0 +1,36 @@
+#
+# Test that namespaces are not duplicated.
+#
+
+@inject
+versionCode=101
+versionName=1.0.1
+minSdkVersion=15
+targetSdkVersion=24
+
+@main
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest package="com.example.blankactivity5">
+
+</manifest>
+
+
+@result
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.example.blankactivity5"
+      android:versionCode="101"
+      android:versionName="1.0.1" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="24" />
+
+</manifest>
+
+@errors
+
+

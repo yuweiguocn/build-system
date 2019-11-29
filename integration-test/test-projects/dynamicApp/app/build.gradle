@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+apply from: "../../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+
+    dynamicFeatures = [':feature1', ':feature2']
+
+    defaultConfig {
+        minSdkVersion 18
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:' + rootProject.constraintLayoutVersion
+}

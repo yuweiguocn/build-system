@@ -1,0 +1,68 @@
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+apply plugin: 'java'
+apply plugin: 'clone-artifacts'
+apply plugin: 'idea'
+apply plugin: 'jacoco-tools-base'
+
+dependencies {
+    compile gradleApi()
+    compile project(':base:gradle-core')
+
+    testCompile libs.junit
+    testCompile libs.truth
+    testCompile project(':base:project-test-lib')
+}
+
+task setupGradleInIde {
+}
+
+group = 'com.android.tools.build'
+archivesBaseName = 'gradle-experimental'
+version = rootProject.ext.experimentalVersion
+
+project.ext.pomName = 'Gradle Plug-in for Android Using Component Model'
+project.ext.pomDesc = 'Gradle plug-in to build Android applications.'
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+
+jar.manifest.attributes("Plugin-Version": version)
+jar.manifest.attributes("Inception-Date": DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
+
+test {
+    environment("CUSTOM_REPO",
+            rootProject.file("../out/repo").toString()
+                    + File.pathSeparator
+                    + rootProject.file("../prebuilts/tools/common/m2/repository/").toString())
+
+    testLogging {
+        events "failed"
+    }
+
+    maxParallelForks = Runtime.runtime.availableProcessors() / 2
+}
+
+javadoc {
+    exclude     "**/internal/**"
+
+    options.docTitle "Gradle Plugin for Android"
+    options.header ""
+    options.footer "Copyright (C) 2012 The Android Open Source Project"
+}
+
+task javadocJar(type: Jar, dependsOn:javadoc) {
+    classifier  'javadoc'
+    from        javadoc.destinationDir
+
+}
+
+// Only package JavaDoc if using --init-script=buildSrc/base/release.gradle
+if (project.hasProperty("release")) {
+  artifacts {
+    archives javadocJar
+  }
+}
+
+check.dependsOn javadocJar, javadoc

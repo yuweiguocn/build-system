@@ -1,0 +1,16 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion rootProject.latestCompileSdk
+  buildToolsVersion = rootProject.buildToolsVersion
+
+  defaultConfig {
+    versionCode 12
+    minSdkVersion 16
+    //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+    targetSdkVersion 20
+  }
+  buildTypes {
+    minifyDontShrink.initWith(debug)
+  }
+}

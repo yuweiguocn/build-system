@@ -1,0 +1,63 @@
+import com.android.tools.internal.testing.DevicePool;
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'jacoco-tools-base'
+apply plugin: 'com.google.protobuf'
+
+protobuf {
+    protoc {
+        artifact = libs.proto_compiler
+    }
+}
+
+repositories {
+    maven { url = uri(rootProject.cloneArtifacts.repository) }
+}
+
+dependencies {
+    compile project(':analytics-library:protos')
+    compile project(':apksig')
+    compile project(':base:builder')
+    compile project(':base:builder-model')
+    compile project(':base:gradle-core')
+    compile project(':base:instant-run:instant-run-client')
+    compile project(':base:sdk-common')
+    compile project(':base:testing-infrastructure:device-pool:device-provider')
+    compile project(':base:testutils')
+    compile project(':base:java-lib-model')
+
+    compile libs.kotlin_stdlib
+
+    compile gradleApi()
+    compile libs.apache_commons_io
+    compile libs.apache_commons_lang
+    compile libs.google_api_client
+    compile libs.google_storage_client
+    compile libs.groovy
+    compile libs.junit
+    compile libs.protobuf
+    compile libs.protobuf_util
+    compile libs.truth
+
+    testCompile libs.mockito_core
+
+    // Jacoco version should be the version bundled with Gradle.  Not the default version used by
+    // the plugin.
+    compile 'org.jacoco:org.jacoco.agent:0.7.5.201505241946'
+
+    // Add dependency on plugin code.  Exclude transitive dependencies to avoid conflict due to
+    // Groovy versions.
+    compile(project(':base:gradle-core')) {
+        transitive = false
+    }
+}
+
+configurations {
+    // google-api-client depends on guava-jdk5.
+    compile.exclude group: 'com.google.guava', module: 'guava-jdk5'
+}
+
+test {
+    environment << [TEST_TMPDIR: project.buildDir]
+}

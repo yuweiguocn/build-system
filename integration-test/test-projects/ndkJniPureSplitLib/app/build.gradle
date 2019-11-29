@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    api project(':lib')
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion rootProject.buildToolsVersion
+    generatePureSplits true
+
+    defaultConfig {
+        // This actual the app version code. Giving ourselves 100,000 values [0, 99999]
+        versionCode 123
+        minSdkVersion rootProject.supportLibMinSdk
+    }
+
+    flavorDimensions 'foo'
+    productFlavors {
+        free {
+            minSdkVersion 21
+        }
+        paid {
+            minSdkVersion 21
+        }
+    }
+
+    splits {
+        abi {
+            enable = true
+            exclude "x86_64", "mips64", "arm64-v8a", "armeabi"
+        }
+    }
+}

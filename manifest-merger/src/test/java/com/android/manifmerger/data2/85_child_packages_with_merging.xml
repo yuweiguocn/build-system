@@ -1,0 +1,247 @@
+@main
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="foo.bar.multi.parent"
+          android:versionCode="100"
+          android:versionName="100.0">
+
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23"/>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+    <application
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/parent_name"
+            android:allowBackup="false">
+
+        <!-- Always in foo.bar.multi.parent. -->
+        <activity
+                android:name="foo.bar.multi.FirstActivity"
+                android:label="@string/first_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- In foo.bar.multi.parent up to API 23. From API 24 in foo.bar.multi.child1. -->
+        <activity
+                android:name="foo.bar.multi.SecondActivity"
+                android:label="@string/second_activity"
+                android:enabled="@bool/second_activity_enabled">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- In foo.bar.multi.parent up to API 23. From API 24 in foo.bar.multi.child2. -->
+        <activity
+                android:name="foo.bar.multi.ThirdActivity"
+                android:label="@string/third_activity"
+                android:enabled="@bool/third_activity_enabled">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+    <package
+            package="foo.bar.multi.child1">
+
+        <application
+                android:icon="@drawable/ic_launcher"
+                android:label="@string/first_child"
+                android:allowBackup="false">
+
+            <activity
+                    android:name="foo.bar.multi.SecondActivity"
+                    android:label="@string/second_activity" >
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                    <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                </intent-filter>
+            </activity>
+
+        </application>
+
+    </package>
+
+    <package
+            package="foo.bar.multi.child2">
+
+        <uses-permission android:name="android.permission.READ_CONTACTS" />
+        <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+        <application
+                android:icon="@drawable/ic_launcher"
+                android:label="@string/second_child"
+                android:allowBackup="false">
+        </application>
+
+    </package>
+
+</manifest>
+
+@lib1
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="foo.bar.multi.parent"
+          android:versionCode="100"
+          android:versionName="100.0">
+
+<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23"/>
+
+
+<package
+        package="foo.bar.multi.child1">
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+
+</package>
+
+</manifest>
+
+@lib2
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="foo.bar.multi.parent"
+          android:versionCode="100"
+          android:versionName="100.0">
+
+<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23"/>
+
+<package
+        package="foo.bar.multi.child2">
+
+    <application>
+
+        <activity
+                android:name="foo.bar.multi.ThirdActivity"
+                android:label="@string/third_activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</package>
+
+</manifest>
+
+@result
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="foo.bar.multi.parent"
+          android:versionCode="100"
+          android:versionName="100.0">
+
+<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23"/>
+
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+<uses-permission android:name="android.permission.READ_CALENDAR" />
+
+<application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/parent_name"
+        android:allowBackup="false">
+
+    <!-- Always in foo.bar.multi.parent. -->
+    <activity
+            android:name="foo.bar.multi.FirstActivity"
+            android:label="@string/first_activity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <!-- In foo.bar.multi.parent up to API 23. From API 24 in foo.bar.multi.child1. -->
+    <activity
+            android:name="foo.bar.multi.SecondActivity"
+            android:label="@string/second_activity"
+            android:enabled="@bool/second_activity_enabled">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <!-- In foo.bar.multi.parent up to API 23. From API 24 in foo.bar.multi.child2. -->
+    <activity
+            android:name="foo.bar.multi.ThirdActivity"
+            android:label="@string/third_activity"
+            android:enabled="@bool/third_activity_enabled">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+</application>
+
+<package
+        package="foo.bar.multi.child1">
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+    <application
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/first_child"
+            android:allowBackup="false">
+
+        <activity
+                android:name="foo.bar.multi.SecondActivity"
+                android:label="@string/second_activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</package>
+
+<package
+        package="foo.bar.multi.child2">
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+    <application
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/second_child"
+            android:allowBackup="false">
+
+        <activity
+                android:name="foo.bar.multi.ThirdActivity"
+                android:label="@string/third_activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</package>
+
+</manifest>

@@ -1,0 +1,17 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.example.android.instantapp.instantappsimpleproject"
+        minSdkVersion 23
+    }
+
+}
+
+dependencies {
+    implementation project(':feature')
+    implementation project(':base')
+}

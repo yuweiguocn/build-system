@@ -1,0 +1,23 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+apply from: "../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    buildTypes {
+        buildTypeWithResource
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.7.1"
+
+    testDebugImplementation 'com.google.guava:guava:19.0'
+}
+

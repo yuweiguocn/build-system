@@ -1,0 +1,196 @@
+// TODO: Automate the import of this proto.
+// Includes rewriting the import of studio_stats.proto
+syntax = "proto3";
+
+package android.gradle;
+
+//option java_api_version = 2;
+option java_package = "com.google.wireless.android.sdk.gradlelogging.proto";
+
+import "studio_stats.proto";
+import "google/protobuf/timestamp.proto";
+
+message GradleBenchmarkResult {
+  // Profile itself.
+  android_studio.GradleBuildProfile profile = 1;
+
+  // Unique ID of this result, in case we want to inspect it in Dremel.
+  string result_id = 8;
+
+  // All metadata about how the profile was obtained.
+  google.protobuf.Timestamp timestamp = 2;
+  BenchmarkMode benchmark_mode = 3;
+  Benchmark benchmark = 4;
+  Flags flags = 10;
+
+  // Describes the reason this build took place.
+  oneof build {
+    // Build was run on the buildbot, according to schedule.
+    ScheduledBuild scheduled_build = 5;
+
+    // Build was run as a (local?) experiment, it should be ignored when
+    // aggregating data.
+    Experiment experiment = 6;
+  }
+
+  message ScheduledBuild {
+    int64 buildbot_build_number = 1;
+    Bot bot = 2;
+
+    enum Bot {
+      // This is the bot we currently have.
+      SHARED_LINUX_BOT = 0;
+    }
+  }
+
+  message Experiment {
+    string comment = 1;
+  }
+
+  message Flags {
+    DexInProcess dex_in_process = 1;
+    MultiDexMode multi_dex= 2;
+    Minification minification = 3;
+    Jacoco jacoco = 4;
+    BuildCache build_cache = 5;
+    Aapt aapt = 6;
+    ApiJar api_jar = 7;
+    GradleVersion gradle_version = 8;
+    Branch branch = 9;
+    Compiler compiler = 10;
+    Java8LangSupport java8LangSupport = 11;
+
+    // Tells whether Jack or Dex are run in process. Will be renamed to
+    // "CompilerInProcess" once we're ready to migrate the old data.
+    enum DexInProcess {
+      DEX_OUT_OF_PROCESS = 0;
+      DEX_IN_PROCESS = 1;
+    }
+
+    enum MultiDexMode {
+      NO_MULTIDEX = 0;
+      LEGACY = 1;
+      NATIVE = 2;
+    }
+
+    enum Minification {
+      NO_MINIFICATION = 0;
+      PROGUARD_SHRINK = 1;
+      PROGUARD_SHRINK_OBFUSCATE = 2;
+      NEW_SHRINKER = 3;
+    }
+
+    enum Jacoco {
+      NO_JACOCO = 0;
+      JACOCO = 1;
+    }
+
+    enum BuildCache {
+      NO_CACHE = 0;
+      CACHE = 1;
+    }
+
+    enum Aapt {
+      AAPT_1 = 0;
+      AAPT_2 = 1;
+    }
+
+    enum ApiJar {
+      NO_API_JAR = 0;
+      API_JAR = 1;
+    }
+
+    enum GradleVersion {
+      STABLE_GRADLE = 0;
+      UPCOMING_GRADLE = 1;
+    }
+
+    enum Branch {
+      STUDIO_MASTER_DEV = 0;
+      STUDIO_UPCOMING_GRADLE_BRANCH = 1;
+    }
+
+    enum Compiler {
+      DEX = 0;
+      JACK = 1;
+      DEX_ARCHIVE = 2;
+      DESUGAR = 3;
+      D8 = 4;
+    }
+
+    enum Java8LangSupport {
+      NO_SUPPORT = 0;
+      DESUGAR_TOOL = 1;
+      RETROLAMBD = 2;
+    }
+  }
+
+  // Hostname of the machine that ran the build.
+  string hostname = 7;
+  string username = 9;
+
+
+  message Commit {
+    string author = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    string comment = 3;
+    string hash = 4;
+    string link = 5;
+  }
+  Commit commit = 11;
+
+  // NEXT TAG: 12
+}
+
+enum Benchmark {
+  UNKNOWN_BENCHMARK = 0;
+
+  // Used currently for go/gradle-perf:
+  ANTENNA_POD = 1;
+
+  // https://github.com/gradle/perf-android-large
+  PERF_ANDROID_LARGE = 2;
+
+  // https://github.com/gradle/perf-android-medium
+  PERF_ANDROID_MEDIUM = 3;
+}
+
+enum BenchmarkMode {
+  // Benchmark_mode is optional, this value means it was not set.
+  MODE_UNSPECIFIED = 0;
+  EVALUATION = 1;
+  SYNC = 2;
+
+  BUILD__FROM_CLEAN = 3;
+  BUILD__FROM_CLEAN__POPULATED_BUILD_CACHE = 27;
+  BUILD_INC__MAIN_PROJECT__JAVA__IMPLEMENTATION_CHANGE = 4;
+  BUILD_INC__MAIN_PROJECT__JAVA__API_CHANGE = 11;
+  BUILD_INC__SUB_PROJECT__JAVA__IMPLEMENTATION_CHANGE = 12;
+  BUILD_INC__SUB_PROJECT__JAVA__API_CHANGE = 13;
+  BUILD_INC__MAIN_PROJECT__RES__EDIT = 5;
+  BUILD_INC__MAIN_PROJECT__RES__ADD = 6;
+  BUILD_INC__SUB_PROJECT__RES__EDIT = 14;
+  BUILD_INC__SUB_PROJECT__RES__ADD = 15;
+
+  INSTANT_RUN_BUILD__FROM_CLEAN = 7;
+  INSTANT_RUN_BUILD__MAIN_PROJECT__JAVA__IMPLEMENTATION_CHANGE = 10; // hot swap
+  INSTANT_RUN_BUILD__MAIN_PROJECT__JAVA__API_CHANGE = 9; // cold swap
+  INSTANT_RUN_BUILD__SUB_PROJECT__JAVA__IMPLEMENTATION_CHANGE = 16; // hot swap
+  INSTANT_RUN_BUILD__SUB_PROJECT__JAVA__API_CHANGE = 17; // cold swap
+  INSTANT_RUN_BUILD__MAIN_PROJECT__RES__EDIT = 18; // warm swap
+  INSTANT_RUN_BUILD__MAIN_PROJECT__RES__ADD = 19; // cold swap
+  INSTANT_RUN_BUILD__SUB_PROJECT__RES__EDIT = 20; // warm swap
+  INSTANT_RUN_BUILD__SUB_PROJECT__RES__ADD = 21; // cold swap
+
+  BUILD_ANDROID_TESTS_FROM_CLEAN = 22;
+  BUILD_UNIT_TESTS_FROM_CLEAN=23;
+  GENERATE_SOURCES = 24;
+  NO_OP = 25;
+
+  LINT_RUN = 26;
+
+
+  //Deprecated modes
+  INSTANT_RUN_BUILD_INC_JAVA_DEPRECATED = 8;
+}
+

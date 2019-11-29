@@ -1,0 +1,20 @@
+apply plugin: 'com.android.test'
+apply plugin: 'com.example.compiler'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    targetProjectPath ':app'
+    targetVariant 'debug'
+}
+
+dependencies {
+    implementation 'junit:junit:4.12'
+    implementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    implementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}

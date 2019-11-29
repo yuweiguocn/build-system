@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    packagingOptions {
+        exclude 'META-INF/exclude.txt'
+    }
+}
+
+// Create a no-op for the local jar.  Tests needs to ensure this task is executed. - b/63076223
+tasks.create("noop", DefaultTask)
+
+// Try to force incorrect order.  Tests should check that correct order is maintained.
+afterEvaluate {
+    tasks.noop.shouldRunAfter tasks.transformNativeLibsWithSyncJniLibsForDebug
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: '*.jar').builtBy("noop")
+    api 'com.google.guava:guava:19.0'
+}
+

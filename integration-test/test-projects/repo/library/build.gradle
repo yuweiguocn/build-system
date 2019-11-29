@@ -1,0 +1,32 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+repositories {
+    maven { url '../testrepo' }
+}
+apply from: "../commonLocalRepo.gradle"
+
+dependencies {
+    api 'com.example.android.multiproject:baseLib:1.0-SNAPSHOT'
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+}
+
+group = 'com.example.android.multiproject'
+archivesBaseName = 'lib'
+version = '1.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("../testrepo"))
+            pom.groupId = 'com.example.android.multiproject'
+        }
+    }
+}

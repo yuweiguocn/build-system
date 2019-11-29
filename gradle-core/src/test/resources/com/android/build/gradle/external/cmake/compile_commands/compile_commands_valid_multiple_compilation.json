@@ -1,0 +1,19 @@
+[
+  {
+    "directory": "/home/user/test/build",
+    "command": "/usr/bin/clang++ -Irelative -DSOMEDEF=\"With spaces, quotes and \\-es.\" -c -o file.o file.cc",
+    "file": "file.cc"
+  },
+
+  {
+    "directory": "/home/user/test/build",
+    "command": "/usr/bin/clang++ -Irelative -DSOMEDEF=\"With spaces, quotes and \\-es.\" -c -o foo.o foo.cc",
+    "file": "foo.cc"
+  },
+
+  {
+    "directory": "/home/user/test/build",
+    "command": "/usr/bin/clang++ -Irelative -DSOMEDEF=\"With spaces, quotes and \\-es.\" -c -o baz.o baz.cc",
+    "file": "baz.cc"
+  }
+]

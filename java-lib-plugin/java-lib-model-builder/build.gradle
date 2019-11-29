@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+dependencies {
+    compile project(':base:annotations')
+    compile project(':base:java-lib-model')
+    compile gradleApi()
+    compile libs.kotlin_stdlib
+
+    testCompile libs.junit
+    testCompile libs.equalsverifier
+}
+
+group = 'com.android.java.tools.build'
+archivesBaseName = 'java-lib-model-builder'
+version = rootProject.ext.buildVersion
+
+project.ext.pomName = 'Java Library Plugin'
+project.ext.pomDesc = 'Gradle plugin to build Java Library modules.'
+
+project.ext.apiVersion = rootProject.ext.apiVersion ?: 0
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"

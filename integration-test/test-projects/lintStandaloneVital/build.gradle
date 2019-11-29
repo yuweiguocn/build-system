@@ -1,0 +1,17 @@
+//apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+apply from: "../commonLocalRepo.gradle"
+
+apply plugin: 'java-library'
+apply plugin: 'com.android.lint'
+
+lintOptions {
+    // Promote UseValueOf to an issue enforced by the lintVital task:
+    fatal 'UseValueOf'
+
+    htmlReport true
+    htmlOutput file("lint-report.html")
+    textReport true
+    textOutput file("lint-results.txt")
+    absolutePaths false
+}

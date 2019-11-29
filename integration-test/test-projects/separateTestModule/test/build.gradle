@@ -1,0 +1,38 @@
+apply from: "../../commonLocalRepo.gradle"
+apply plugin: 'com.android.test'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        testApplicationId 'com.example.android.testing.blueprint.test'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    targetProjectPath ':app'
+}
+
+dependencies {
+    implementation 'junit:junit:4.12'
+    implementation "com.android.support:support-annotations:${project.supportLibVersion}"
+    implementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    implementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+
+task('checkDependencies').doLast {
+    assert project.connectedCheck instanceof Task
+    def deps =  project.connectedCheck.taskDependencies.getDependencies(project.connectedCheck)
+
+    def connectedAndroidTest = deps.find { it.name == "connectedAndroidTest" }
+    assert connectedAndroidTest instanceof Task
+
+    deps = connectedAndroidTest.taskDependencies.getDependencies(connectedAndroidTest)
+    def actualTestTask = deps.find { it.name == "connectedDebugAndroidTest" }
+    // The actual class name has the _Decorated suffix.
+    assert actualTestTask.class.name.contains(".DeviceProviderInstrumentTestTask")
+
+    // :test:assembleDebug will fail if the app module is not built, so other tests verify
+    // that this ends up compiling the app module.
+}

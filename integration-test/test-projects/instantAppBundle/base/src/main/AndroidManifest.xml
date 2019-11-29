@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dist="http://schemas.android.com/apk/distribution"
+  package="com.example.android.instantapp.instantappsimpleproject" android:versionCode="1">
+
+    <dist:module dist:onDemand="false" dist:instant="true">
+      <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <meta-data
+            android:name="aia-compat-api-min-version"
+            android:value="1" />
+    </application>
+
+</manifest>

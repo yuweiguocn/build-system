@@ -1,0 +1,39 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        renderscriptNdkModeEnabled true
+        ndk {
+            moduleName "libhellocomputendk"
+            stl "stlport_shared"
+        }
+
+    }
+
+    buildTypes.debug.jniDebuggable true
+
+    flavorDimensions 'abi'
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        arm {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        mips {
+            ndk {
+                abiFilter "mips"
+            }
+        }
+    }
+}

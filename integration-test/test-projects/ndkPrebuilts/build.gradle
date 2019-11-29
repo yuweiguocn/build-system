@@ -1,0 +1,39 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+android {
+    // Set to a version that does not support 64-bits (b.android.com/237833)
+    compileSdkVersion 19
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+    }
+
+    flavorDimensions 'abi'
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        arm {
+            ndk {
+                abiFilters "armeabi-v7a", "armeabi"
+            }
+        }
+        mips {
+            ndk {
+                abiFilter "mips"
+            }
+        }
+
+        // Make a 64-bits flavor anyway even if the compileSdkVersion does not support it
+        x86_64 {
+            ndk {
+                abiFilter "x86_64"
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+apply plugin: 'com.android.feature'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    baseFeature true
+
+    defaultConfig {
+        minSdkVersion 21
+        ndk {
+            moduleName "base-jni"
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "Android.mk"
+        }
+    }
+
+    splits {
+        abi {
+            universalApk false
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a'
+        }
+    }
+}
+
+dependencies {
+    feature project(':feature_a')
+    application project(':app')
+
+    implementation project(':library')
+}

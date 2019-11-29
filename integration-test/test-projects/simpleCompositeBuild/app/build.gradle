@@ -1,0 +1,23 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion 15
+    }
+}
+
+//
+// A basic Android application with a composite build dependency.
+//
+dependencies {
+    implementation ('org.sample:string-utils:1.0')
+}
+
+repositories {
+    ivy {
+            url project.file("../local-repo")
+	}
+}
+

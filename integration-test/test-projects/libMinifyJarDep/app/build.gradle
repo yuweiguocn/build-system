@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+apply from: "../../commonLocalRepo.gradle"
+
+dependencies {
+    api project(':lib')
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    testBuildType "proguard"
+
+    defaultConfig {
+        versionCode 12
+        versionName "2.0"
+        minSdkVersion 16
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        proguard.initWith(buildTypes.debug)
+        proguard {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'config.pro'
+            testProguardFiles 'config_test.pro'
+        }
+    }
+
+    dexOptions {
+        incremental false
+    }
+}
+
+dependencies {
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+  androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+

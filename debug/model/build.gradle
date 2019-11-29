@@ -1,0 +1,13 @@
+apply plugin: 'application'
+apply plugin: 'kotlin'
+
+mainClassName = "com.android.tools.build.debug.model.Main"
+
+version = rootProject.ext.buildVersion
+
+dependencies {
+    implementation libs.kotlin_stdlib
+    implementation project(':base:build-system:integration-test:framework')
+    implementation libs.gradle_tooling_api
+    implementation project(':base:builder-model')
+}

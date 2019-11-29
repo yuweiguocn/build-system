@@ -1,0 +1,75 @@
+load("//tools/base/bazel:maven.bzl", "maven_pom")
+
+filegroup(
+    name = "aapt2",
+    visibility = ["//visibility:public"],
+)
+
+maven_pom(
+    name = "aapt2_maven",
+    artifact = "aapt2",
+    classified_files = [
+        ":darwin_zip",
+        ":linux_zip",
+        ":windows_zip",
+    ],
+    classifiers = [
+        "osx",
+        "linux",
+        "windows",
+    ],
+    group = "com.android.tools.build",
+    properties_files = [
+        "//tools/buildSrc/base:version.properties",
+        "//prebuilts/tools/common/aapt:aapt2_version.properties",
+    ],
+    version_property = "${buildVersion}-${aapt2Version}",
+    visibility = ["//visibility:public"],
+)
+
+java_library(
+    name = "notice",
+    resource_strip_prefix = "tools/base/build-system/aapt2",
+    resources = ["NOTICE"],
+)
+
+DARWIN_FILES = [
+    "//prebuilts/tools/common/aapt:darwin/aapt2",
+]
+
+java_library(
+    name = "darwin_zip",
+    resource_jars = [":notice"],
+    resource_strip_prefix = "prebuilts/tools/common/aapt/darwin",
+    #  resources = [":darwin_files"],
+    resources = DARWIN_FILES,
+)
+
+LINUX_FILES = [
+    "//prebuilts/tools/common/aapt:linux/aapt2",
+]
+
+java_library(
+    name = "linux_zip",
+    resource_jars = [":notice"],
+    resource_strip_prefix = "prebuilts/tools/common/aapt/linux",
+    resources = LINUX_FILES,
+)
+
+WINDOWS_FILES = [
+    "//prebuilts/tools/common/aapt:windows/aapt2.exe",
+    "//prebuilts/tools/common/aapt:windows/libwinpthread-1.dll",
+]
+
+java_library(
+    name = "windows_zip",
+    resource_jars = [":notice"],
+    resource_strip_prefix = "prebuilts/tools/common/aapt/windows",
+    resources = WINDOWS_FILES,
+)
+
+filegroup(
+    name = "aapt2_for_tests",
+    srcs = DARWIN_FILES + LINUX_FILES + WINDOWS_FILES,
+    visibility = ["//tools/base:__subpackages__"],
+)

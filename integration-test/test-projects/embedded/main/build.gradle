@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion rootProject.latestCompileSdk
+  buildToolsVersion = rootProject.buildToolsVersion
+
+  defaultConfig {
+    minSdkVersion rootProject.supportLibMinSdk
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  flavorDimensions 'foo'
+  productFlavors {
+     flavor1 {
+
+     }
+     flavor2 {
+
+     }
+  }
+
+  buildTypes {
+    custom.initWith(release)
+    custom {
+      applicationIdSuffix = '.custom'
+    }
+  }
+}
+
+configurations {
+  flavor1ReleaseWearApp
+  flavor2ReleaseWearApp
+  flavor1CustomWearApp
+  flavor2CustomWearApp
+}
+
+dependencies {
+  flavor1ReleaseWearApp project(':micro-apps:flavor1')
+  flavor2ReleaseWearApp project(':micro-apps:default')
+  flavor1CustomWearApp project(':micro-apps:custom')
+  flavor2CustomWearApp project(':micro-apps:custom')
+
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+  androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+

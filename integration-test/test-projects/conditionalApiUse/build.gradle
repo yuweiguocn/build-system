@@ -1,0 +1,25 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+apply from: "../commonLocalRepo.gradle"
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        applicationId "com.android.tests.conditionalApiUse"
+        minSdkVersion 19
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    api "com.android.support:support-annotations:${project.supportLibVersion}"
+    androidTestImplementation "com.android.support:support-annotations:${project.supportLibVersion}"
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+}

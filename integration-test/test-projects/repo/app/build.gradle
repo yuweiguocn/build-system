@@ -1,0 +1,20 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+apply plugin: 'maven'
+
+repositories {
+    maven { url '../testrepo' }
+}
+apply from: "../commonLocalRepo.gradle"
+
+dependencies {
+    api 'com.example.android.multiproject:lib:1.0'
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+}
+

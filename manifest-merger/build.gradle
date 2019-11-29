@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'jacoco-tools-base'
+apply plugin: 'sdk-java-lib'
+
+group = 'com.android.tools.build'
+archivesBaseName = 'manifest-merger'
+version = rootProject.ext.baseVersion
+
+dependencies {
+    compile project(':base:common')
+    compile project(':base:sdklib')
+    compile project(':base:sdk-common')
+    compile libs.gson
+    compile libs.kotlin_stdlib
+    compile libs.kxml
+
+    testCompile libs.junit
+    testCompile libs.truth
+    testCompile libs.mockito_core
+    testCompile project(':base:testutils')
+}
+
+sourceSets {
+    main.resources.srcDir 'src/main/java'
+    test.resources.srcDir 'src/test/java'
+}
+
+test {
+    maxParallelForks = Runtime.runtime.availableProcessors() / 2
+}
+
+project.ext.pomName = 'Android Tools Manifest Merger library'
+project.ext.pomDesc = 'A Library to merge Android manifests.'
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"
+

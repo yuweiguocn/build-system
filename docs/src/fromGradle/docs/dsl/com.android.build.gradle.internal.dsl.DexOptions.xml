@@ -1,0 +1,25 @@
+<section>
+    <section>
+        <title>Properties</title>
+        <table>
+            <thead>
+                <tr><td>Name</td></tr>
+            </thead>
+            <tr><td>javaMaxHeapSize</td></tr>
+            <tr><td>jumboMode</td></tr>
+            <tr><td>maxProcessCount</td></tr>
+            <tr><td>preDexLibraries</td></tr>
+            <tr><td>threadCount</td></tr>
+            <tr><td>additionalParameters</td></tr>
+            <tr><td>keepRuntimeAnnotatedClasses</td></tr>
+        </table>
+    </section>
+    <section>
+        <title>Methods</title>
+        <table>
+            <thead>
+                <tr><td>Name</td></tr>
+            </thead>
+        </table>
+    </section>
+</section>

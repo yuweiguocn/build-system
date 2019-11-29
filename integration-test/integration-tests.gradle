@@ -1,0 +1,93 @@
+/*
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ext.testEnvironment =
+        /*
+         * We keep the following properties:
+         * - starting with CUSTOM_ e.g. CUSTOM_ANDROID_HOME
+         * - DEBUG_INNER_TEST: to allow us to debug tests
+         * - starting with LC_ or LANG_, so the locale is set up correctly
+         * - BUILDBOT_: to get BuildBot specific information
+         */
+        System.getenv().findAll { entry ->
+            String key = entry.key
+            key.startsWith("CUSTOM_") ||
+                    key.startsWith("ACTD_") || // environment variables for uploading to Dana
+                    key.startsWith("PERF_") || // environment variables for controlling perf tests
+                    key == "USE_GRADLE_NIGHTLY" ||
+                    key == "DEBUG_INNER_TEST" ||
+                    // For NDK tests on Windows. See init.mk.
+                    key == "OS" ||
+                    key == "PROCESSOR_ARCHITECTURE" ||
+                    key == "ProgramW6432" ||
+                    key == "ProgramFiles(x86)" ||
+                    key == "TMP" ||
+                    key == "TEMP" ||
+                    // For AccentCharacterAndProguardTest
+                    key.startsWith("LC_") ||
+                    key.startsWith("LANG") ||
+                    key.startsWith("BUILDBOT_")
+        }
+
+ext.testEnvironment << [
+        TEST_TMPDIR:
+                System.env.TEST_TMPDIR != null
+                        ? new File(System.env.TEST_TMPDIR)
+                        : project.buildDir, // Use the same environment variable as Bazel for now.
+        CUSTOM_REPO: new File(rootProject.ext.androidHostOut, "repo").toString()
+                + File.pathSeparator
+                + rootProject.file("../prebuilts/tools/common/m2/repository/").toString(),
+        CUSTOM_IMPROVED_DEPENDENCY_RESOLUTION : "true"
+]
+
+File tempFile = new File(project.buildDir, 'tmp')
+
+task("createTestTempDirectory") {
+    doLast { tempFile.mkdirs() }
+}
+
+test {
+    description =
+            "Runs the data binding gradle integration tests"
+    systemProperties['jar.path'] = jar.archivePath
+    systemProperties['java.io.tmpdir'] = tempFile.absolutePath
+    environment = testEnvironment
+
+    // Always run the task, when requested.
+    outputs.upToDateWhen { false }
+
+    maxParallelForks = Runtime.runtime.availableProcessors() / 4
+
+    useJUnit {
+        if (System.properties['test.includeCategories'] != null) {
+            def categories = System.properties['test.includeCategories'].split(',')
+            String defaultPackage = "com.android.build.gradle.integration.common.category."
+            categories = categories.collect { it.charAt(0).isUpperCase() ? defaultPackage + it : it }
+            includeCategories categories as String[]
+        }
+       excludeCategories "com.android.build.gradle.integration.common.category.DeviceTests"
+        excludeCategories "com.android.build.gradle.integration.common.category.OnlineTests"
+        excludeCategories "com.android.build.gradle.integration.common.category.DeviceTestsQuarantine"
+    }
+
+    testLogging {
+        events = ['FAILED', 'SKIPPED', 'STANDARD_ERROR']
+        displayGranularity = 2 // Show test class and method.
+        exceptionFormat = 'full'
+        showCauses = true
+    }
+    dependsOn ':publishLocal' , createTestTempDirectory
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.example.android.multiproject.libfeat">
+    <application>
+        <meta-data android:name="libfeat" android:value="84" />
+    </application>
+</manifest>

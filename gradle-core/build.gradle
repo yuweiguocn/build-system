@@ -1,0 +1,215 @@
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'jacoco-tools-base'
+apply plugin: 'clone-artifacts'
+apply plugin: 'license-report'
+apply plugin: 'com.google.protobuf'
+
+configurations {
+    provided
+    includeInJar
+}
+
+licenseReport {
+    whiteList = ['org.jetbrains.trove4j:trove4j:20160824']
+}
+
+// Set the version of the plugin in the manifest. This is used by 3rd party plugin (like Kotlin)
+jar.manifest.attributes("Plugin-Version": version)
+jar.manifest.attributes("Inception-Date": DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
+
+
+// Incremental update test support
+File classesDir = new File(project.buildDir, "classes/incremental-test")
+File baseClasses = new File(classesDir, "base")
+File baseInstrumentedClasses = new File(classesDir, "baseInstrumented")
+
+sourceSets {
+    main {
+        java.srcDirs += 'src/fromGradle/java'
+        resources.srcDirs = ['src/main/resources', 'src/fromGradle/resources']
+        compileClasspath += configurations.provided
+    }
+
+    test {
+        compileClasspath += files(baseClasses)
+        runtimeClasspath += files(baseInstrumentedClasses)
+    }
+}
+
+dependencies {
+    compile project(':base:builder')
+    compile project(':analytics-library:shared')
+    compile project(':analytics-library:crash')
+    compile project(':base:lint-gradle-api')
+    compile project(':base:gradle-api')
+    compile project(':dataBinding:compilerCommon')
+
+    compile libs.kotlin_stdlib
+    compile libs.transform_api_deprecated
+    compile libs.asm
+    compile libs.asm_analysis
+    compile libs.asm_commons
+    compile libs.asm_util
+    compile libs.jopt
+    compile libs.proguard
+    compile libs.bundle_tool
+    compile libs.jetifier_core
+    compile libs.jetifier_processor
+    compile libs.protobuf
+    compile libs.protobuf_util
+
+    compileOnly libs.jacoco_core
+    compileOnly libs.jacoco_report
+
+    testCompile project(':base:instant-run:instant-run-annotations')
+    testCompile project(':base:instant-run:instant-run-runtime')
+
+    // Add gradleApi to classpath for compilation, but use provided configuration so that groovy is
+    // not exposed as a runtime dependency.
+    provided gradleApi()
+
+    // Package the instant-run-server.jar, nothing else.
+    includeInJar project(path: ':base:instant-run:instant-run-server', configuration: 'archives')
+
+    testCompile gradleApi()
+    testCompile libs.junit
+    testCompile libs.truth
+    testCompile libs.kotlin_test
+    testCompile libs.mockito_core
+    testCompile libs.guava
+    testCompile libs.equalsverifier
+    testCompile project(':base:project-test-lib')
+    testCompile project(':base:testutils')
+    testCompile 'org.jetbrains:annotations:13.0'
+    testCompile libs.jsoup
+    testCompile libs.jacoco_core
+    testCompile libs.jacoco_report
+}
+
+protobuf {
+    protoc {
+        artifact = libs.proto_compiler
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+jar {
+    into('instant-run') {
+        from configurations.includeInJar
+    }
+}
+
+group = 'com.android.tools.build'
+archivesBaseName = 'gradle'
+version = rootProject.ext.buildVersion
+
+project.ext.pomName = 'Gradle Plug-in for Android'
+project.ext.pomDesc = 'Gradle plug-in to build Android applications.'
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+
+test {
+    environment("CUSTOM_REPO",
+            new File(rootProject.ext.androidHostOut, "repo").toString()
+                    + File.pathSeparator
+                    + rootProject.file("../prebuilts/tools/common/m2/repository/").toString())
+
+    testLogging {
+        events "failed"
+    }
+
+    maxParallelForks = Runtime.runtime.availableProcessors() / 2
+
+    exclude "**/GradleCoreBazelSuite*"
+}
+
+javadoc {
+    exclude     "**/internal/**"
+
+    options.docTitle "Gradle Plugin for Android"
+    options.header ""
+    options.footer "Copyright (C) 2012 The Android Open Source Project"
+}
+
+task javadocJar(type: Jar, dependsOn:javadoc) {
+    classifier  'javadoc'
+    from        javadoc.destinationDir
+
+}
+
+tasks.withType(Javadoc) {
+    classpath += configurations.provided
+}
+
+// Only package JavaDoc if using --init-script=buildSrc/base/release.gradle
+if (project.hasProperty("release")) {
+    artifacts {
+        archives javadocJar
+    }
+}
+
+
+// Package instant run instrumentation inside of gradle-core.
+configurations {
+    subsumedProvided
+    sourcesSubsumedProvided
+}
+dependencies {
+    subsumedProvided(project(':base:instant-run-instrumentation')) {
+        transitive = false
+    }
+    sourcesSubsumedProvided(project(path:':base:instant-run-instrumentation', configuration:'sourcesOnly')) {
+        transitive = false
+    }
+}
+sourceSets.main.compileClasspath += configurations.subsumedProvided
+sourceSets.test.compileClasspath += configurations.subsumedProvided
+sourceSets.test.runtimeClasspath += configurations.subsumedProvided
+tasks.compileJava.dependsOn(configurations.subsumedProvided)
+tasks.sourcesJar.dependsOn(configurations.sourcesSubsumedProvided)
+tasks.jar {
+    from({ zipTree(configurations.subsumedProvided.singleFile)})
+}
+tasks.sourcesJar {
+    from({zipTree(configurations.sourcesSubsumedProvided.singleFile)})
+}
+tasks.processResources {
+    from(rootProject.file("../prebuilts/tools/common/aapt/aapt2_version.properties")) {
+        into "com/android/build/gradle/internal/res/"
+    }
+}
+javadoc {
+    classpath += configurations.subsumedProvided
+}
+// End Package instant run instrumentation inside of gradle-core.
+
+// Incremental update test support
+javadoc {
+    classpath += configurations.provided
+}
+
+// setup annotation processor output directory
+File generatedSources = new File(project.buildDir, 'generated/generated')
+tasks.compileJava {
+    doFirst {
+        generatedSources.mkdirs()
+    }
+    options.compilerArgs += ['-s', generatedSources]
+    outputs.dir(generatedSources)
+}

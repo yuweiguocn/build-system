@@ -1,0 +1,8 @@
+apply plugin: 'com.android.feature'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    baseFeature true
+}

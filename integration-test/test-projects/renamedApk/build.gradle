@@ -1,0 +1,38 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+apply from: "../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes.debug {
+        zipAlignEnabled true
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all { output ->
+        try {
+            outputFileName = new File(output.outputFile.parent, "foo")
+            throw new RuntimeException("setting an absolute path to outputFileName not caught")
+        } catch (GradleException e) {
+            // expected
+        }
+        outputFileName = "${variant.name}.apk"
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}

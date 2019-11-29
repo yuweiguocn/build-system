@@ -1,0 +1,24 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+
+apply plugin: 'com.android.library'
+
+dependencies {
+    api "com.android.support:support-annotations:${project.supportLibVersion}"
+}
+
+android {
+    resourcePrefix 'lib1_'
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 19
+        renderscriptTargetApi 18
+        renderscriptSupportModeEnabled true
+        renderscriptSupportModeBlasEnabled false
+   }
+}

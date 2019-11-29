@@ -1,0 +1,40 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+// Simple vulkan project with shaders
+// Adapted from https://github.com/googlesamples/android-vulkan-tutorials/tree/master/tutorial05_triangle
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+
+    defaultConfig {
+        applicationId  "com.google.vulkan.tutorials.five"
+        minSdkVersion    rootProject.latestCompileSdk
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion rootProject.latestCompileSdk
+        versionCode 1
+        versionName "0.0.1"
+
+        // Shader compilation directives, put glsl shaders to app/src/main/shaders
+        // android studio will pick them up and compile them into APK/assets/shaders
+        // KNOWN ISSUE:  if shaders having errors, it takes long time for gradle to timeout
+        //               but it will eventually time out and complain about shader compiling
+        shaders {
+            glslcArgs.addAll(['-c', '-g'])
+        }
+        externalNativeBuild {
+            cmake {
+                // armeabi is not supported, not building for mips in samples
+                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static'
+            }
+        }
+    }
+   externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
+}

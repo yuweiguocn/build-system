@@ -1,0 +1,36 @@
+// ATTENTION -- hash value of this file is checked in the corresponding
+// integration test. Please make sure any changes you make here are
+// backwards compatible.
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+// query for all (non-test) variants and inject a new step in the builds
+android.libraryVariants.all { variant ->
+    // create a task that copies some additional data in the library bundle
+    def copyBlahTask = tasks.create(name: "copy${variant.name.capitalize()}Blah", type: Copy) {
+        from           file("$project.projectDir/blah")
+        destinationDir file("${buildDir}/bundles/${variant.dirName}")
+    }
+
+    variant.packageLibrary.dependsOn copyBlahTask
+}
+
+dependencies {
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+
+project.afterEvaluate {
+    if (android.libraryVariants.size() != 2) {
+        throw new GradleException("Wrong number of app variants!")
+    }
+}

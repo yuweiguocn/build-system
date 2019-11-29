@@ -1,0 +1,26 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        applicationId "com.example.namespacedApp"
+        minSdkVersion 15
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion rootProject.latestCompileSdk
+        versionCode 1
+        versionName "1.0"
+    }
+
+    aaptOptions.namespaced = true
+}
+
+dependencies {
+    implementation 'com.android.support:support-media-compat:' + rootProject.supportLibVersion
+    implementation 'com.android.support:design:' + rootProject.supportLibVersion
+    implementation 'com.android.support.constraint:constraint-layout:' +
+            rootProject.constraintLayoutVersion
+}

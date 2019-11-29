@@ -1,0 +1,41 @@
+apply plugin: 'com.android.feature'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    generatePureSplits true
+
+    defaultConfig {
+        minSdkVersion 21
+        ndk {
+            moduleName "hello-jni"
+        }
+
+        // This actual the app version code. Giving ourselves 1,000,000 values
+        versionCode = 123
+
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "Android.mk"
+        }
+    }
+
+    splits {
+        abi {
+            universalApk false
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a'
+        }
+        density {
+            enable true
+            exclude "ldpi", "tvdpi", "xhdpi", "xxhdpi", "xxxhdpi", "mdpi"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':baseFeature')
+}

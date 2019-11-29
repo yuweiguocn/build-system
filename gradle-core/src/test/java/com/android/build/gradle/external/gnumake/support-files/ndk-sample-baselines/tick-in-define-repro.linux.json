@@ -1,0 +1,46 @@
+{
+  "buildFiles": [
+    {
+      "path": "{testPath}"
+    }
+  ],
+  "cleanCommands": [
+    "echo clean command"
+  ],
+  "libraries": {
+    "example-debug-armeabi-v7a": {
+      "buildCommand": "echo build command /usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libexample.so",
+      "toolchain": "toolchain-armeabi-v7a",
+      "abi": "armeabi-v7a",
+      "artifactName": "example",
+      "files": [
+        {
+          "src": {
+            "path": "/usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/src/main/cpp/../../../../../other_sources/file1.cpp"
+          },
+          "flags": "-gcc-toolchain /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -fpic -ffunction-sections -funwind-tables -fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -no-canonical-prefixes -fno-integrated-as -g -target armv7-none-linux-androideabi14 -march\u003darmv7-a -mfloat-abi\u003dsoftfp -mfpu\u003dvfpv3-d16 -fno-exceptions -fno-rtti -mthumb -O0 -UNDEBUG -fno-limit-debug-info -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/include -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/cxx-stl/llvm-libc++abi/include -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/android/support/include -I/usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/src/main/cpp -std\u003dc++11 -DANDROID -D__ANDROID_API__\u003d14 -Wa,--noexecstack -Wformat -Werror\u003dformat-security -DTOM\u003d\u0027hello world\u0027 --sysroot /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sysroot -isystem /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi"
+        },
+        {
+          "src": {
+            "path": "/usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/src/main/cpp/example.cpp"
+          },
+          "flags": "-gcc-toolchain /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -fpic -ffunction-sections -funwind-tables -fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -no-canonical-prefixes -fno-integrated-as -g -target armv7-none-linux-androideabi14 -march\u003darmv7-a -mfloat-abi\u003dsoftfp -mfpu\u003dvfpv3-d16 -fno-exceptions -fno-rtti -mthumb -O0 -UNDEBUG -fno-limit-debug-info -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/include -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/cxx-stl/llvm-libc++abi/include -I/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sources/android/support/include -I/usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/src/main/cpp -std\u003dc++11 -DANDROID -D__ANDROID_API__\u003d14 -Wa,--noexecstack -Wformat -Werror\u003dformat-security -DTOM\u003d\u0027hello world\u0027 --sysroot /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sysroot -isystem /usr/local/google/home/jomof/Android/Sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi"
+        }
+      ],
+      "output": {
+        "path": "/usr/local/google/home/jomof/projects/ndk-build-meet-cdep/app/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libexample.so"
+      }
+    }
+  },
+  "toolchains": {
+    "toolchain-armeabi-v7a": {
+      "cppCompilerExecutable": {
+        "path": "/usr/local/google/home/jomof/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+      }
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

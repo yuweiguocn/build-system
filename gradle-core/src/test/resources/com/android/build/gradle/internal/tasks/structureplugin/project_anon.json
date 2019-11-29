@@ -1,0 +1,101 @@
+{
+  "inputVersion": "0.1",
+  "projectConfig": {
+    "projectName": "generated",
+    "root": "./",
+    "buildSystemConfig": {
+      "buildSystemVersion": "4.6",
+      "agpVersion": "3.2.0"
+    },
+    "moduleConfigs": [
+      {
+        "moduleName": "Module0_Module1",
+        "moduleType": "pure",
+        "java": {
+          "packages": 10,
+          "classesPerPackage": 10,
+          "methodsPerClass": 10,
+          "fieldsPerClass": 5
+        },
+        "dependencies": [
+          {
+            "library": "my.org:lib1:1.0",
+            "method": "implementation"
+          },
+          {
+            "library": "my.org:lib2:3.1",
+            "method": "api"
+          }
+        ]
+      },
+      {
+        "moduleName": "Module0",
+        "moduleType": "pure",
+        "useKotlin": true,
+        "kotlin": {
+          "packages": 10,
+          "classesPerPackage": 10,
+          "methodsPerClass": 10,
+          "fieldsPerClass": 5
+        },
+        "dependencies": [
+          {
+            "moduleName": "Module0_Module1",
+            "method": "implementation"
+          },
+          {
+            "library": "my.org:lib1:1.0",
+            "method": "implementation"
+          },
+          {
+            "library": "my.org:lib2:3.1",
+            "method": "api"
+          }
+        ]
+      },
+      {
+        "moduleName": "Module2",
+        "moduleType": "android",
+        "java": {
+          "packages": 5,
+          "classesPerPackage": 5,
+          "methodsPerClass": 5,
+          "fieldsPerClass": 5
+        },
+        "useKotlin": true,
+        "kotlin": {
+          "packages": 5,
+          "classesPerPackage": 5,
+          "methodsPerClass": 5,
+          "fieldsPerClass": 5
+        },
+        "androidBuildConfig": {
+          "minSdkVersion": 21,
+          "targetSdkVersion": 28,
+          "compileSdkVersion": 28
+        },
+        "activityCount": 0,
+        "hasLaunchActivity": false,
+        "resourcesConfig": {
+          "stringCount": 2,
+          "imageCount": 3,
+          "layoutCount": 4
+        },
+        "dependencies": [
+          {
+            "moduleName": "Module0",
+            "method": "implementation"
+          },
+          {
+            "library": "my.org:lib1:1.0",
+            "method": "implementation"
+          },
+          {
+            "library": "my.org:lib2:3.1",
+            "method": "api"
+          }
+        ]
+      }
+    ]
+  }
+}

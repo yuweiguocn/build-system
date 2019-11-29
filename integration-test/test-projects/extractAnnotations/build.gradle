@@ -1,0 +1,23 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+
+apply plugin: 'com.android.library'
+
+apply from: "../commonLocalRepo.gradle"
+
+dependencies {
+    api "com.android.support:support-annotations:${project.supportLibVersion}"
+    api "com.android.support:support-v4:${project.supportLibVersion}"
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+      minSdkVersion rootProject.supportLibMinSdk
+    }
+}
+
+defaultTasks 'extractDebugAnnotations'

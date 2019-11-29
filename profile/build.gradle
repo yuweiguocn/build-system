@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'jacoco-tools-base'
+
+dependencies {
+    compile project(':base:annotations')
+    compile project(':base:common')
+    compile project(':analytics-library:tracker')
+    compile libs.guava
+    compile libs.gson
+
+    testCompile libs.junit
+    testCompile libs.truth
+    testCompile libs.mockito_core
+    testCompile libs.jimfs
+}
+
+configurations {
+    sourcesOnly
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    sourcesOnly sourcesJar
+}

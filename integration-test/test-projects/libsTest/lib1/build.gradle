@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    api project(':lib2')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+
+android {
+    resourcePrefix 'lib1_'
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 15
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}

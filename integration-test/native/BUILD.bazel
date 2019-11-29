@@ -1,0 +1,393 @@
+load("//tools/base/bazel:maven.bzl", "maven_repo")
+load("//tools/base/build-system/integration-test:integration-test.bzl", "single_gradle_integration_test")
+
+#keep sorted
+DATA = [
+    "//prebuilts/studio/sdk:add-ons/addon-google_apis-google-latest",
+    "//prebuilts/studio/sdk:build-tools/latest",
+    "//prebuilts/studio/sdk:ndk-bundle",
+    "//prebuilts/studio/sdk:platform-tools",
+    "//prebuilts/studio/sdk:platforms/android-19_build_only",
+    "//prebuilts/studio/sdk:platforms/android-24_build_only",
+    "//prebuilts/studio/sdk:platforms/latest",
+    "//prebuilts/studio/sdk:platforms/latest-preview",
+    "//prebuilts/tools/common/kotlin-plugin:Kotlin/kotlinc/build.txt",
+    "//tools/base/build-system:gradle-distrib",
+    "//tools/base/build-system/aapt2:aapt2_for_tests",
+    "//tools/base/build-system/integration-test:test-projects",
+]
+
+#keep sorted
+CMAKE = [
+    "//prebuilts/studio/sdk:cmake",
+    "//prebuilts/tools/common/cmake:cmake-3.8.2",
+]
+
+ANDROID_23 = ["//prebuilts/studio/sdk:platforms/android-23_build_only"]
+
+#keep sorted
+DEPS = [
+    "//tools/analytics-library/protos/src/main/proto",
+    "//tools/apksig",
+    "//tools/apkzlib",
+    "//tools/base/annotations",
+    "//tools/base/build-system:gradle-api",
+    "//tools/base/build-system/builder",
+    "//tools/base/build-system/builder-model",
+    "//tools/base/build-system/builder-test-api:tools.builder-test-api",
+    "//tools/base/build-system/gradle-api",
+    "//tools/base/build-system/gradle-core",
+    "//tools/base/build-system/integration-test/framework",
+    "//tools/base/build-system/integration-test/framework/src/main/proto",
+    "//tools/base/build-system/java-lib-plugin/java-lib-model",
+    "//tools/base/build-system/java-lib-plugin/java-lib-model-builder",
+    "//tools/base/common:tools.common",
+    "//tools/base/ddmlib:tools.ddmlib",
+    "//tools/base/instant-run:instant-run-client",
+    "//tools/base/repository:tools.repository",
+    "//tools/base/sdk-common:tools.sdk-common",
+    "//tools/base/sdklib:tools.sdklib",
+    "//tools/base/testutils:tools.testutils",
+    "//tools/base/third_party:com.google.guava_guava",
+    "//tools/base/third_party:com.google.protobuf_protobuf-java",
+    "//tools/base/third_party:com.google.protobuf_protobuf-java-util",
+    "//tools/base/third_party:com.google.truth_truth",
+    "//tools/base/third_party:org.apache.commons_commons-compress",
+    "//tools/base/third_party:org.codehaus.groovy_groovy-all",
+    "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
+    "//tools/base/third_party:org.jetbrains.kotlin_kotlin-test",
+    "//tools/base/third_party:org.mockito_mockito-core",
+    "//tools/base/third_party:org.ow2.asm_asm",
+    "//tools/base/third_party:org.ow2.asm_asm-tree",
+    "//tools/base/third_party:org.smali_dexlib2",
+]
+
+#keep sorted
+MAVEN_REPOS = [
+    "//tools/base/build-system:gradle_plugin_no_databinding_repo",
+    "//tools/base/build-system/integration-test:androidx_latest",
+    "//tools/base/build-system/integration-test:support_library_latest",
+    "//tools/base/build-system/integration-test/native:prebuilts",
+]
+
+#keep sorted
+TAGS = [
+    "no_test_mac_psq",  # b/113099009
+    "no_test_windows",  # b/73306170
+]
+
+single_gradle_integration_test(
+    name = "AbiPureSplits",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeAndroidGradleBuildExtensionsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeBasicProjectTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeGradleTargetsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeInjectedAbiSplitTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeInstantRunTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE + ANDROID_23,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeJniLibTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeJniPureSplitLibTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeMultiModuleTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeStlMatrixTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeTargetsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CmakeVanillaBasicProjectTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "CombinedAbiDensityPureSplits",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "FeatureAndAbiPureSplitsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "InjectedAbiNativeLibraryTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NativeBuildOutputTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NativeModelTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildAndroidMkLibraryTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildBasicProjectTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildInstantRunTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + ANDROID_23,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildJniLibTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildJniPureSplitLibTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildSplitTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkBuildTargetsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "Pre21SplitTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "RenderscriptNdkTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "RsEnabledAnnotationTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "RsSupportModeTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "VulkanTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/nativebuild/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS + [
+        "no_test_mac",  # b/110846203
+    ],
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkJniLibTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/ndk/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkLibPrebuiltsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/ndk/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkPrebuiltsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/ndk/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NdkSanAngelesTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/ndk/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+single_gradle_integration_test(
+    name = "NoSplitNdkVariantsTest",
+    srcs = "src/test/java/com/android/build/gradle/integration/ndk/",
+    data = DATA + CMAKE,
+    maven_repos = MAVEN_REPOS,
+    tags = TAGS,
+    deps = DEPS,
+)
+
+maven_repo(
+    name = "prebuilts",
+    # keep sorted
+    artifacts = [
+        "//tools/base/testing-infrastructure/device-pool/device-provider",  # TODO: remove
+    ],
+)

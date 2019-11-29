@@ -1,0 +1,51 @@
+apply plugin: 'java'
+apply plugin: 'clone-artifacts'
+apply plugin: 'sdk-java-lib'
+
+dependencies {
+    compile project(':base:annotations')
+    testCompile 'junit:junit:4.12'
+}
+
+group = 'com.android.tools.build'
+archivesBaseName = 'builder-model'
+version = rootProject.ext.buildVersion
+
+project.ext.pomName = 'Android Builder Model library'
+project.ext.pomDesc = 'Model for the Builder library.'
+
+project.ext.apiVersion = rootProject.ext.apiVersion ?: 0
+
+// because the model is passed from the IDE to Gradle, no matter
+// what version of Gradle Plugin is running, we need to keep this
+// as Java6 bytecode in case Studio 2.2 loads a project running
+// an older plugin in a JDK6 VM.
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"
+
+["Model-Version": version, "Model-Api-Version": apiVersion].each { key, value ->
+    jar.manifest.attributes((key): value)
+    sdkJar.manifest.attributes((key): value)
+}
+
+def generated = new File("${project.buildDir}/generated/resources")
+
+sourceSets {
+    main {
+        resources {
+            srcDir generated
+        }
+    }
+}
+
+task copyVersionProperties(type: Copy) {
+    from project.file(project.getRootProject().getProperty("versionProperties"))
+    rename({"version.properties"})
+    into project.file("$generated/com/android/builder/model")
+}
+
+tasks.compileJava.dependsOn copyVersionProperties

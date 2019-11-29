@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+project.ext.fakeProvider = new com.android.tests.basic.buildscript.FakeProvider()
+project.ext.fakeServer = new com.android.tests.basic.buildscript.FakeServer()
+
+apply from: "../../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    deviceProvider project.fakeProvider
+    testServer project.fakeServer
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+project.afterEvaluate {
+    configure(fakeDebugAndroidTest) {
+        doLast {
+            String error = project.fakeProvider.isValid()
+            if (error != null) {
+                throw new GradleException("Failed DeviceProvider usage: " + error)
+            }
+        }
+    }
+
+    configure(fake2Upload) {
+        doLast {
+            String error = project.fakeServer.isValid()
+            if (error != null) {
+                throw new GradleException("Failed TestServer usage: " + error)
+            }
+        }
+    }
+}
+
+dependencies {
+    api project(':lib')
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}

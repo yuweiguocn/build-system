@@ -1,0 +1,37 @@
+#
+# Test that namespaces are not duplicated.
+#
+
+@main
+
+<manifest package="com.example.blankactivity">
+
+</manifest>
+
+
+@lib1
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.example.blankactivity" >
+
+    <application
+            android:name="TheApp" >
+    </application>
+
+</manifest>
+
+
+@result
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.example.blankactivity" >
+
+    <application
+            android:name="TheApp"
+            android:debuggable="true" >
+    </application>
+
+</manifest>
+
+
+@errors

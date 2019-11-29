@@ -1,0 +1,1 @@
+-dontwarn org.xmlpull.v1.** # b/119865980 Depended on by testing support library, but also in android.jar.

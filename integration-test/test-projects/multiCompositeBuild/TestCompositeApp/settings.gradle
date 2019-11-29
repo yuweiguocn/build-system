@@ -1,0 +1,6 @@
+include ':app', ':composite0'
+
+includeBuild '../TestCompositeLib1'
+includeBuild '../TestCompositeLib2'
+includeBuild '../TestCompositeLib3'
+includeBuild '../TestCompositeLib4'

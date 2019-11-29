@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':base:annotations')
+}
+
+group = 'com.android.java.tools.build'
+archivesBaseName = 'java-lib-model'
+version = rootProject.ext.buildVersion
+
+project.ext.pomName = 'Java Library Plugin Model'
+project.ext.pomDesc = 'APIs for Java Library Plugin.'
+
+project.ext.apiVersion = rootProject.ext.apiVersion ?: 0
+
+// because the model is passed from the IDE to Gradle, no matter
+// what version of Gradle Plugin is running, we need to keep this
+// as Java6 bytecode in case Studio 2.2 loads a project running
+// an older plugin in a JDK6 VM.
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"

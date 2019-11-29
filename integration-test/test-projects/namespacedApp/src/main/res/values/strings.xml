@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">namespacedApp</string>
+    <string name="res_reference">@*android.support.design:string/password_toggle_content_description</string>
+</resources>

@@ -1,0 +1,5 @@
+include 'app'
+include 'bundle'
+include 'baseFeature'
+include 'feature_a'
+include 'library'

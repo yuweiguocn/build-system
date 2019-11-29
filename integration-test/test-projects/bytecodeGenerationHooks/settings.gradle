@@ -1,0 +1,7 @@
+include 'app'
+include 'jar'
+include 'library'
+include 'test'
+include 'baseFeature'
+include 'feature'
+include 'bundle'

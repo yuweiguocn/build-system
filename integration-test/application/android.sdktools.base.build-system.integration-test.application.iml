@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.integration-test.framework" />
+    <orderEntry type="library" name="groovy" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.builder" />
+    <orderEntry type="library" name="jacoco" level="project" />
+    <orderEntry type="library" name="truth" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.instant-run-client" />
+    <orderEntry type="library" name="JUnit4" level="project" />
+    <orderEntry type="library" name="mockito" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.instant-run-common" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.testing-infrastructure.device-provider" />
+    <orderEntry type="library" name="dexlib2" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.testutils" />
+    <orderEntry type="library" scope="TEST" name="studio-analytics-proto" level="project" />
+    <orderEntry type="library" name="protobuf" level="project" />
+    <orderEntry type="library" name="google-api-client" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.apkzlib" />
+    <orderEntry type="module" module-name="android.sdktools.base.instant-run.instrumentation" />
+    <orderEntry type="module" module-name="android.sdktools.apksig" exported="" />
+    <orderEntry type="library" name="commons-lang" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.sdklib-base" />
+    <orderEntry type="module" module-name="android.sdktools.repository" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.gradle-core" />
+    <orderEntry type="library" name="gradle-api" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.sdk-common-base" />
+    <orderEntry type="module" module-name="android.sdktools.base.layoutlib-api-base" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.gradle-api" />
+    <orderEntry type="module" module-name="android.sdktools.java-lib-model" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="library" scope="TEST" name="commons-io" level="project" />
+    <orderEntry type="library" scope="TEST" name="commons-compress" level="project" />
+    <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
+  </component>
+</module>

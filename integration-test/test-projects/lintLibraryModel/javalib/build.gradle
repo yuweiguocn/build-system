@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.google.guava:guava:19.0'
+    api project(':javalib2')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

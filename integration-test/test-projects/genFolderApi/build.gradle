@@ -1,0 +1,79 @@
+// ATTENTION -- hash value of this file is checked in the corresponding
+// integration test. Please make sure any changes you make here are
+// backwards compatible.
+
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+}
+
+public class GenerateCode extends DefaultTask {
+    @Input
+    String value
+
+    @OutputFile
+    File outputFile
+
+    @TaskAction
+    void taskAction() {
+        getOutputFile().text =
+            "package com.custom;\n" +
+            "public class Foo {\n" +
+            "    public static String getBuildDate() { return \"${getValue()}\"; }\n" +
+            "}\n";
+    }
+}
+
+public class GenerateRes extends DefaultTask {
+    @Input
+    String value
+
+    @OutputFile
+    File outputFile
+
+    @TaskAction
+    void taskAction() {
+        getOutputFile().text = '<?xml version="1.0" encoding="utf-8"?>\n' + getValue()
+    }
+}
+
+android.applicationVariants.all { variant ->
+
+    // create a task that generates a java class
+    File sourceFolder = file("${buildDir}/customCode/${variant.dirName}")
+    def javaGenerationTask = tasks.create(name: "generatedCodeFor${variant.name.capitalize()}", type: GenerateCode) {
+        value new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+        outputFile file("${sourceFolder.absolutePath}/com/custom/Foo.java")
+    }
+
+    variant.registerJavaGeneratingTask(javaGenerationTask, sourceFolder)
+
+    // create a task that generates an XML file class
+    File resFolder = file("${buildDir}/customRes/${variant.dirName}")
+    def resGenerationTask = tasks.create(name: "generatedResFor${variant.name.capitalize()}", type: GenerateRes) {
+        value '<xml>' + new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC")) + '</xml>'
+        outputFile file("${resFolder.absolutePath}/xml/generated.xml")
+    }
+
+    variant.registerResGeneratingTask(resGenerationTask, resFolder)
+
+    // create a task that generates a values class
+    ConfigurableFileCollection resFolder2 = files("${buildDir}/customRes2/${variant.dirName}")
+    def resGenerationTask2 = tasks.create(name: "generatedRes2For${variant.name.capitalize()}", type: GenerateRes) {
+        value '<resources>\n' +
+                '    <string\n' +
+                '        name="generated_string">Hello World</string>\n' +
+                '</resources>'
+        outputFile file("${resFolder2.singleFile.absolutePath}/values/generated.xml")
+    }
+    resFolder2.builtBy(resGenerationTask2)
+
+    if (Boolean.parseBoolean(project.property('inject_enable_generate_values_res'))) {
+        variant.registerGeneratedResFolders(resFolder2)
+    }
+}

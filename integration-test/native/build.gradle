@@ -1,0 +1,49 @@
+import com.android.tools.internal.testing.DevicePool;
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'jacoco-tools-base'
+
+repositories {
+    maven { url = uri(rootProject.cloneArtifacts.repository) }
+}
+
+dependencies {
+    testCompile project(':base:build-system:integration-test:framework')
+    testCompile project(':analytics-library:protos')
+    testCompile project(':apksig')
+    testCompile project(':base:builder')
+    testCompile project(':base:builder-model')
+    testCompile project(':base:sdk-common')
+    testCompile project(':base:testing-infrastructure:device-pool:device-provider')
+    testCompile project(':base:testutils')
+    testCompile project(':base:java-lib-model')
+
+    testCompile libs.kotlin_stdlib
+
+    testCompile gradleApi()
+    testCompile libs.apache_commons_io
+    testCompile libs.apache_commons_lang
+    testCompile libs.google_api_client
+    testCompile libs.google_storage_client
+    testCompile libs.groovy
+    testCompile libs.junit
+    testCompile libs.protobuf
+    testCompile libs.protobuf_util
+    testCompile libs.truth
+
+    testCompile libs.mockito_core
+
+    // Add dependency on plugin code.  Exclude transitive dependencies to avoid conflict due to
+    // Groovy versions.
+    testCompile(project(':base:gradle-core')) {
+        transitive = false
+    }
+}
+
+configurations {
+    // google-api-client depends on guava-jdk5.
+    testCompile.exclude group: 'com.google.guava', module: 'guava-jdk5'
+}
+
+apply from: '../integration-tests.gradle'

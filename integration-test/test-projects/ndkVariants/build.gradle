@@ -1,0 +1,38 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+
+// This test ensures each variant compiles the correct source set with the appropriate NDK settings.
+
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+        compileSdkVersion rootProject.latestCompileSdk
+        buildToolsVersion rootProject.buildToolsVersion
+
+        ndk {
+            moduleName "simple-jni"
+
+            // TODO: Include a way to set include directories the DSL.
+            cppFlags.add("-I$rootDir/src/include".toString())
+            stl "stlport_static"
+        }
+
+        productFlavors {
+            create("free") {
+                dimension "foo"
+            }
+            create("premium") {
+                dimension "foo"
+            }
+        }
+    }
+
+    // Set binary specific C++ flags.
+    components.android {
+        binaries.afterEach { binary ->
+            binary.mergedNdkConfig.cppFlags.add("-DVARIANT=\"" + binary.name + "\"")
+        }
+    }
+}
+

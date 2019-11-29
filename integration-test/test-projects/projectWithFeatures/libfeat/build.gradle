@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+    }
+}
+
+dependencies {
+    implementation project(':library')
+    implementation "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+}

@@ -1,0 +1,17 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId 'com.android.tests.singlefeature'
+    }
+}
+
+//
+// A basic Android application with one feature module.
+//
+dependencies {
+    implementation project(':feature')
+}

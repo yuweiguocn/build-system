@@ -1,0 +1,5 @@
+apply plugin: 'android-library'
+
+dependencies {
+  api project(':A:Project')
+}

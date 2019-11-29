@@ -1,0 +1,147 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'clone-artifacts'
+apply plugin: 'jacoco-tools-base'
+
+dependencies {
+    compile project(':base:builder-model')
+    compile project(':base:builder-test-api')
+
+    compile project(':base:sdklib')
+    compile project(':base:sdk-common')
+    compile project(':base:common')
+    compile project(':base:manifest-merger')
+    compile project(':base:ddmlib')
+
+    compile project(':analytics-library:protos')
+    compile project(':analytics-library:shared')
+    compile project(':analytics-library:tracker')
+    compile project(':apksig')
+    compile project(':apkzlib')
+
+    compile libs.kotlin_stdlib
+    compile libs.javawriter
+    compile libs.bouncycastle_pkix
+    compile libs.bouncycastle_prov
+    compile libs.asm
+    compile libs.asm_tree
+    compile libs.javax_inject
+    // R8 deps
+    compile libs.asm_commons
+    compile libs.asm_util
+    compile libs.fastutil
+    compile libs.jopt
+    compile libs.json_simple
+
+    testCompile libs.kotlin_test
+    testCompile libs.junit
+    testCompile libs.mockito_core
+    testCompile libs.truth
+    testCompile libs.equalsverifier
+    testCompile libs.jimfs
+    testCompile project(':base:testutils')
+}
+
+test {
+    maxParallelForks = Runtime.runtime.availableProcessors() / 2
+}
+
+group = 'com.android.tools.build'
+archivesBaseName = 'builder'
+version = rootProject.ext.buildVersion
+
+project.ext.pomName = 'Android Builder library'
+project.ext.pomDesc = 'Library to build Android applications.'
+
+apply from: "$rootDir/buildSrc/base/publish.gradle"
+apply from: "$rootDir/buildSrc/base/bintray.gradle"
+apply from: "$rootDir/buildSrc/base/javadoc.gradle"
+
+def generated = new File("${project.buildDir}/generated")
+def generatedSources = new File("${generated}/generated")
+def generatedResources = new File("${generated}/resources")
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/dex/java'
+        }
+        resources {
+            srcDir generatedResources
+        }
+    }
+}
+
+// setup annotation processor output directory
+tasks.compileJava {
+    doFirst {
+        generatedSources.mkdirs()
+    }
+    options.compilerArgs += ['-s', generatedSources]
+    outputs.dir(generatedSources)
+}
+
+jar.manifest.attributes("Builder-Version": version)
+
+configurations {
+    provided
+    sourcesProvided
+    resourcesRuntime
+}
+
+dependencies {
+    provided(project(':base:profile')) {
+        transitive = false
+    }
+
+    sourcesProvided(project(path:':base:profile', configuration:'sourcesOnly')) {
+        transitive = false
+    }
+
+    provided(project(':dx')) {
+        transitive = false
+    }
+
+    provided(files('../../../../prebuilts/r8/d8-master.jar'))
+
+    sourcesProvided(project(path:':dx', configuration:'sourcesOnly')) {
+        transitive = false
+    }
+
+    resourcesRuntime(project(path: ':external:desugar', configuration: 'fatJar')) {
+        transitive = false
+    }
+    resourcesRuntime(project(':external:desugar:tryWithResourcesRuntime')) {
+        transitive = false
+    }
+}
+
+sourceSets.main.compileClasspath += configurations.provided
+sourceSets.test.compileClasspath += configurations.provided
+sourceSets.test.runtimeClasspath += configurations.provided
+tasks.compileJava.dependsOn(configurations.provided)
+tasks.sourcesJar.dependsOn(configurations.sourcesProvided)
+
+tasks.jar {
+    from {
+        configurations.provided.collect({zipTree(it)})
+    }
+    from {
+        configurations.resourcesRuntime
+    }
+}
+
+tasks.sourcesJar {
+    from({
+        configurations.sourcesProvided.collect({zipTree(it)})
+    })
+}
+javadoc {
+    classpath += configurations.provided
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}

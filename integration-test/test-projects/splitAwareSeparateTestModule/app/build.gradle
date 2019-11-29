@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    publishNonDefault true
+    generatePureSplits true
+
+  defaultConfig {
+    versionCode 12
+    minSdkVersion 21
+    //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+    targetSdkVersion 21
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  splits {
+    density {
+      enable true
+      exclude "ldpi", "tvdpi", "xxxhdpi"
+    }
+  }
+
+  dependencies {
+    implementation 'junit:junit:4.12'
+    implementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    implementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+  }
+}
+

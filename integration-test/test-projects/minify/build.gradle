@@ -1,0 +1,49 @@
+apply from: "../commonHeader.gradle"
+buildscript { apply from: "../commonBuildScript.gradle" }
+apply from: "../commonLocalRepo.gradle"
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    testBuildType "minified"
+
+    defaultConfig {
+        versionCode 12
+        versionName "2.0"
+        minSdkVersion 16
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 16
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        minified.initWith(buildTypes.debug)
+        minified {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard-rules.pro"
+            testProguardFile "test-proguard-rules.pro"
+            testCoverageEnabled true
+        }
+    }
+
+    dexOptions {
+        incremental false
+    }
+
+    // Included in both hamcrest-core and hamcrest-library.
+    packagingOptions.exclude 'LICENSE.txt'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+
+    // This library references java.beans classes that are not part of Android,
+    // so ProGuard can't find references and fails without the rule from
+    // test-proguard-rules.pro.
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+}

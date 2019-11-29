@@ -1,0 +1,9 @@
+apply plugin: 'java-library'
+apply plugin: 'idea'
+
+dependencies {
+    compileOnly "com.android.tools.lint:lint-api:$baseVersion"
+    compileOnly "com.android.tools.lint:lint-checks:$baseVersion"
+}
+
+

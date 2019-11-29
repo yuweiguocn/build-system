@@ -1,0 +1,18 @@
+apply plugin: 'com.android.feature'
+apply plugin: 'com.example.compiler'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    baseFeature true
+
+    defaultConfig {
+        minSdkVersion rootProject.supportLibMinSdk
+    }
+}
+
+dependencies {
+    api project(':library')
+    api project(':jar')
+    feature project(':feature')
+}

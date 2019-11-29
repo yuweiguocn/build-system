@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 15
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    flavorDimensions 'foo'
+    productFlavors {
+        flavor1 {
+            applicationId = "com.android.tests.flavorlib.app.flavor1"
+        }
+        flavor2 {
+            applicationId = "com.android.tests.flavorlib.app.flavor2"
+        }
+    }
+
+    testOptions {
+        resultsDir = "$project.buildDir/foo/results"
+        reportDir = "$project.buildDir/foo/report"
+    }
+}
+
+dependencies {
+    flavor1Api project(':lib1')
+    flavor2Api project(':lib2')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}

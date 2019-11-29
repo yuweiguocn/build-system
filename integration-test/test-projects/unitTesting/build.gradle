@@ -1,0 +1,35 @@
+apply from: "../commonHeader.gradle"
+
+buildscript {
+    apply from: "../commonHeader.gradle"  // for $kotlinVersion
+    apply from: "../commonBuildScript.gradle"
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$rootProject.kotlinVersion"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply from: "../commonLocalRepo.gradle"
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    testOptions {
+        unitTests.all {
+            systemProperty 'foo', 'bar'
+        }
+    }
+}
+
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.7.1'
+    testImplementation 'org.jdeferred:jdeferred-android-aar:1.2.3'
+    testImplementation 'commons-logging:commons-logging:1.1.1'
+}

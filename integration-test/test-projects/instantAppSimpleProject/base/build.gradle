@@ -1,0 +1,19 @@
+apply plugin: 'com.android.feature'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    baseFeature true
+    defaultConfig {
+        minSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    api "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
+    api 'com.android.support.constraint:constraint-layout:' + rootProject.constraintLayoutVersion
+    application project(':app')
+    feature project(':feature')
+}

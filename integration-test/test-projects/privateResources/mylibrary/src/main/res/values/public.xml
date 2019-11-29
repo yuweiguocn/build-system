@@ -1,0 +1,7 @@
+<resources>
+    <public name="mylib_app_name" type="string"/>
+    <public name="mylib_public_string" type="string"/>
+    <public name="mylib_shared_name" type="string"/>
+    <public name="mylib_shared_name" type="id"/>
+    <public name="Mylib_My.Theme" type="style"/>
+</resources>

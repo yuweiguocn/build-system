@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../out/build/base/gradle-core/build/generated">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../out/build/base/gradle-core/build/generated/source/proto/main/java" isTestSource="false" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../out/build/base/gradle-core/build/generated-src">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../out/build/base/gradle-core/build/generated-src/antlr/main" isTestSource="false" packagePrefix="com.android.build.gradle.shrinker.parser" generated="true" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../../prebuilts/tools/common/aapt">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../prebuilts/tools/common/aapt" type="java-resource" relativeOutputPath="com/android/build/gradle/internal/res" generated="true" />
+      <excludePattern pattern="darwin*" />
+      <excludePattern pattern="linux*" />
+      <excludePattern pattern="windows*" />
+      <excludePattern pattern="README*" />
+      <excludePattern pattern="BUILD*" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/fromGradle/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/fromGradle/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/.gradle" />
+    </content>
+    <orderEntry type="library" name="asm-tools" level="project" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="TEST" name="JUnit4" level="project" />
+    <orderEntry type="library" name="proguard-gradle" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.builder" />
+    <orderEntry type="module" module-name="android.sdktools.base.lint.cli" />
+    <orderEntry type="module" module-name="android.sdktools.base.lint.lint-api-base" />
+    <orderEntry type="library" name="gradle-api" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.test.project-test-lib" scope="TEST" />
+    <orderEntry type="module" module-name="android.sdktools.base.sdk-common-base" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.manifest-merger-base" />
+    <orderEntry type="module" module-name="android.sdktools.base.build-system.gradle-api" />
+    <orderEntry type="module" module-name="android.sdktools.base.lint.checks-base" />
+    <orderEntry type="library" scope="TEST" name="jacoco" level="project" />
+    <orderEntry type="library" scope="TEST" name="mockito" level="project" />
+    <orderEntry type="library" scope="TEST" name="truth" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.instant-run-annotations" scope="TEST" />
+    <orderEntry type="module" module-name="android.sdktools.base.instant-run.runtime" scope="TEST" />
+    <orderEntry type="library" name="antlr3-runtime" level="project" />
+    <orderEntry type="library" name="slf4j-api" level="project" />
+    <orderEntry type="library" name="studio-analytics-proto" level="project" />
+    <orderEntry type="library" scope="TEST" name="guava-tools" level="project" />
+    <orderEntry type="library" scope="TEST" name="equalsverifier" level="project" />
+    <orderEntry type="library" scope="TEST" name="jimfs" level="project" />
+    <orderEntry type="library" name="protobuf" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.instant-run.instrumentation" />
+    <orderEntry type="library" name="groovy" level="project" />
+    <orderEntry type="library" name="jopt-simple" level="project" />
+    <orderEntry type="library" name="jsoup" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.base.sdklib-base" />
+    <orderEntry type="module" module-name="android.sdktools.repository" />
+    <orderEntry type="module" module-name="android.sdktools.base.layoutlib-api-base" />
+    <orderEntry type="library" name="commons-compress" level="project" />
+    <orderEntry type="library" exported="" name="gson" level="project" />
+    <orderEntry type="library" name="jacoco" level="project" />
+    <orderEntry type="library" name="jacoco-core" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.testutils" scope="TEST" />
+    <orderEntry type="module" module-name="android.sdktools.dx" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.ddmlib" />
+    <orderEntry type="module" module-name="android.sdktools.base.lint.gradle-api" exported="" />
+    <orderEntry type="library" scope="TEST" name="intellij-annotations" level="project" />
+    <orderEntry type="library" name="commons-io" level="project" />
+    <orderEntry type="library" name="bundletool" level="project" />
+    <orderEntry type="library" name="jetifier-core" level="project" />
+    <orderEntry type="library" name="jetifier-processor" level="project" />
+    <orderEntry type="module" module-name="android.sdktools.analytics.shared-base" />
+    <orderEntry type="module" module-name="android.sdktools.analytics.crash-base" />
+    <orderEntry type="library" name="http-client" level="project" />
+    <orderEntry type="module" module-name="db-compilerCommon" />
+    <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
+  </component>
+</module>

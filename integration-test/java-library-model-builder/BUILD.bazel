@@ -1,0 +1,56 @@
+load("//tools/base/bazel:maven.bzl", "maven_repo")
+load("//tools/base/bazel:kotlin.bzl", "kotlin_library", "kotlin_test", "kotlin_jar")
+load("//tools/base/build-system/integration-test:integration-test.bzl", "gradle_integration_test")
+
+maven_repo(
+    name = "java-library-model-builder-plugin",
+    artifacts = [
+        "//tools/base/build-system/java-lib-plugin/java-lib-model-builder",
+    ],
+    visibility = ["__subpackages__"],
+)
+
+gradle_integration_test(
+    name = "tests",
+    srcs = glob(
+        [
+            "src/test/java/**/*.java",
+            "src/test/java/**/*.kt",
+        ],
+    ),
+    data = [
+        "//prebuilts/tools/common/kotlin-plugin:Kotlin/kotlinc/build.txt",
+        "//tools/base/build-system:gradle-distrib",
+    ],
+    maven_repos = [
+        "//tools/base/build-system/integration-test/java-library-model-builder:java-library-model-builder-plugin",
+        "//tools/base/build-system/integration-test/java-library-model-builder:prebuilts",
+    ],
+    resources = glob(["src/test/resources/**"]),
+    tags = ["no_test_windows"],  # b/73306170
+    deps = [
+        "//tools/base/annotations",
+        "//tools/base/build-system/builder-model",  #TODO: remove.
+        "//tools/base/build-system/integration-test/framework",
+        "//tools/base/build-system/java-lib-plugin/java-lib-model",
+        "//tools/base/build-system/java-lib-plugin/java-lib-model-builder",
+        "//tools/base/common:tools.common",
+        "//tools/base/sdk-common:tools.sdk-common",
+        "//tools/base/testutils:tools.testutils",
+        "//tools/base/third_party:com.google.guava_guava",
+        "//tools/base/third_party:com.google.truth_truth",
+        "//tools/base/third_party:org.jetbrains.kotlin_kotlin-stdlib",
+        "//tools/base/third_party:org.mockito_mockito-core",
+    ],
+)
+
+maven_repo(
+    name = "prebuilts",
+    # keep sorted
+    artifacts = [
+        "//prebuilts/tools/common/m2/repository/com/google/code/findbugs/jsr305/1.3.9:jar",
+        "//prebuilts/tools/common/m2/repository/com/google/guava/guava/19.0:jar",
+        "//tools/base/third_party:junit_junit",
+    ],
+    visibility = ["__subpackages__"],
+)

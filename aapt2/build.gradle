@@ -1,0 +1,71 @@
+apply plugin: 'maven'
+// Only present so gets released in 'release' mode.
+apply plugin: 'signing'
+
+File aaptVersionPropertiesFile = rootProject.file('../prebuilts/tools/common/aapt/aapt2_version.properties')
+Properties aaptVersionProperties = new Properties()
+aaptVersionPropertiesFile.withReader { aaptVersionProperties.load(it) }
+
+group = 'com.android.tools.build'
+archivesBaseName = 'aapt2'
+version = rootProject.ext.buildVersion + '-' + aaptVersionProperties.getProperty("aapt2Version")
+
+publishLocal {
+    repositories {
+        mavenDeployer {
+            pom.project {
+                name 'aapt2'
+                description 'Android Asset Packaging Tool 2.'
+                url 'https://developer.android.com/studio'
+                inceptionYear '2007'
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+                scm {
+                    url 'https://android.googlesource.com/platform/frameworks/base'
+                    connection 'git://android.googlesource.com/platform/frameworks/base.git'
+                }
+                developers {
+                    developer {
+                        name 'The Android Open Source Project'
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+task zipDarwin(type: Jar) {
+    from rootProject.file('../prebuilts/tools/common/aapt/darwin',)
+    from 'NOTICE'
+}
+task zipLinux(type: Jar) {
+    from rootProject.file('../prebuilts/tools/common/aapt/linux',)
+    from 'NOTICE'
+}
+task zipWindows(type: Jar) {
+    from rootProject.file('../prebuilts/tools/common/aapt/windows',)
+    from 'NOTICE'
+}
+
+jar.enabled = false
+
+artifacts {
+    archives zipDarwin {
+        classifier 'osx'
+    }
+    archives zipLinux {
+        classifier 'linux'
+    }
+    archives zipWindows {
+        classifier 'windows'
+    }
+}
+configurations.archives.artifacts.with {
+    it.remove(it.find {it.properties.classifier==""})
+}

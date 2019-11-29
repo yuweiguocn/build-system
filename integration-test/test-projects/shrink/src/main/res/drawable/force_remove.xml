@@ -1,0 +1,45 @@
+<!-- referenced from RootActivity, but removed with tools:discard -->
+<color xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:comment="http://example.com/comment"
+       android:color="#ff00ff"
+       comment:comment="
+This is a bunch of noise to make sure this file is big even when compressed. This way
+tests can be sure that the *-stripped.ap_ file will be used instead of the original one.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor ornare massa ut ultricies.
+Pellentesque ac lacus tortor. Praesent tellus sapien, elementum eu nisl nec, eleifend mattis felis.
+Suspendisse dictum, ante in ullamcorper fermentum, est mi luctus nisi, vitae sollicitudin urna massa
+sodales justo. Suspendisse a lorem tempor, dignissim ex ut, ultrices augue. Phasellus euismod nisi
+eu tellus vehicula, ac sodales libero ullamcorper. Proin molestie facilisis risus id tincidunt. Nunc
+vitae dapibus risus. Morbi condimentum urna quis ultricies egestas. Etiam sed ornare mauris.
+
+Suspendisse eu est libero. Cras tincidunt, risus a congue dictum, leo nisi ullamcorper ligula,
+porttitor cursus urna felis posuere libero. Donec vel sem at risus commodo condimentum. Vestibulum
+commodo lobortis mi, quis feugiat lacus lobortis ut. Sed ultrices vestibulum ante, id dignissim quam
+faucibus ut. Nunc ultrices metus id turpis porttitor egestas. Phasellus vel facilisis neque. Quisque
+eleifend nisi ut elit sodales auctor. Proin viverra arcu sit amet aliquet scelerisque.
+
+Nulla ipsum magna, vehicula vitae imperdiet non, rutrum non ligula. Donec sagittis neque eu ipsum
+ornare, vitae euismod lorem euismod. Class aptent taciti sociosqu ad litora torquent per conubia
+nostra, per inceptos himenaeos. Praesent semper elementum nisi, sed fringilla urna rhoncus sit amet.
+In blandit ullamcorper nunc, at pulvinar nibh luctus vel. Sed turpis ante, mollis nec massa id,
+tincidunt interdum metus. Nulla ut ex id odio pellentesque scelerisque id sit amet nisl. Etiam
+condimentum sem quam, a pulvinar lectus congue quis. In hac habitasse platea dictumst. Curabitur
+fringilla, orci nec suscipit mattis, nulla lacus pulvinar risus, vitae sodales sem erat vitae
+tortor. Phasellus et convallis arcu. Donec a imperdiet lectus.
+
+Nam et mi id tellus tempor euismod ut dignissim diam. Nam sit amet placerat elit. Suspendisse in
+quam sem. Donec sit amet velit sapien. Proin dapibus a eros a tempor. Nunc in velit arcu. Vivamus
+maximus velit porta mauris vehicula venenatis. Mauris euismod sagittis sapien sed consectetur.
+Phasellus non nunc vehicula, sollicitudin leo ut, vehicula tortor. Donec vel mauris sagittis,
+tincidunt magna consequat, rutrum mauris. Sed non gravida metus, sit amet vestibulum sapien. Duis
+quis velit in ex porta volutpat. Phasellus tincidunt efficitur dolor, sed consectetur libero
+venenatis vel. Quisque vestibulum dictum velit. Curabitur at libero tellus.
+
+Pellentesque eget commodo enim, a varius lectus. Vestibulum eleifend scelerisque urna sed pulvinar.
+Nullam cursus blandit nunc in eleifend. In dapibus malesuada sapien vel blandit. Pellentesque
+dignissim diam elit, in rhoncus ligula rutrum sed. Suspendisse faucibus, nibh id faucibus
+scelerisque, quam ex sagittis leo, ut posuere felis urna quis ex. In semper ipsum vitae nibh
+egestas, sit amet pretium est dictum. Quisque scelerisque, orci sed tincidunt lacinia, nisl nisl
+facilisis massa, ut auctor lorem augue consequat nisi. Maecenas commodo tortor justo, vel bibendum
+purus rutrum id. " />

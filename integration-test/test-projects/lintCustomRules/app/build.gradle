@@ -1,0 +1,22 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion 16
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 24
+    }
+
+    lintOptions {
+        textReport true
+        textOutput file("lint-results.txt")
+        check 'UnitTestLintCheck'
+        absolutePaths false
+    }
+}
+
+dependencies {
+    implementation project(':library')
+}

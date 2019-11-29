@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">instantAppSimpleProject</string>
+    <string name="test_string">Cette chaîne est en français</string>
+</resources>

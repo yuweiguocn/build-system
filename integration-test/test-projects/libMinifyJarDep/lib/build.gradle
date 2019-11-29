@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+apply from: "../../commonLocalRepo.gradle"
+
+dependencies {
+    api 'com.google.guava:guava:19.0'
+    api fileTree(dir: 'libs', include: '*.jar')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:${project.testSupportLibVersion}"
+    androidTestImplementation "com.android.support.test:rules:${project.testSupportLibVersion}"
+}
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        versionCode 12
+        versionName "2.0"
+        minSdkVersion 16
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 16
+        proguardFile 'config.pro'
+        consumerProguardFiles 'config.pro'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+        }
+        release {
+            minifyEnabled true
+        }
+        proguard.initWith(buildTypes.debug)
+    }
+}

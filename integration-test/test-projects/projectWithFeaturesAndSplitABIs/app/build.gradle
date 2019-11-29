@@ -1,0 +1,15 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 21
+        applicationId 'com.example.android.multiproject'
+    }
+}
+
+dependencies {
+    implementation project(':feature_a')
+}

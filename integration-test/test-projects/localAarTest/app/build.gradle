@@ -1,0 +1,16 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.latestCompileSdk
+    buildToolsVersion = rootProject.buildToolsVersion
+    defaultConfig {
+        minSdkVersion 15
+    }
+}
+
+//
+// A basic Android application split over a library and a main project.
+//
+dependencies {
+    api project(':lib1')
+}
